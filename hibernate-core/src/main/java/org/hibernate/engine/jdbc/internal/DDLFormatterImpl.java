@@ -127,11 +127,12 @@ public class DDLFormatterImpl implements Formatter {
 	}
 
 	private static boolean isBreak(String token) {
-		return "drop".equals( token ) ||
+		return false;
+		/*return "drop".equals( token ) ||
 				"add".equals( token ) ||
 				"references".equals( token ) ||
 				"foreign".equals( token ) ||
-				"on".equals( token );
+				"on".equals( token );*/
 	}
 
 	private static boolean isQuote(String tok) {

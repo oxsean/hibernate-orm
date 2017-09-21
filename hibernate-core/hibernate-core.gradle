@@ -37,7 +37,7 @@ dependencies {
     provided( libraries.validation )
     provided( libraries.ant )
 
-    testCompile( project(':hibernate-testing') )
+    //testCompile( project(':hibernate-testing') )
     testCompile( libraries.validation )
     testCompile( libraries.jandex )
     testCompile( libraries.classmate )

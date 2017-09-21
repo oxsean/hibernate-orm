@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.LinkedHashMap;
 import javax.persistence.Access;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -63,7 +63,7 @@ class PropertyContainer {
 	 */
 	private final AccessType classLevelAccessType;
 
-	private final TreeMap<String, XProperty> persistentAttributeMap;
+	private final Map<String, XProperty> persistentAttributeMap;
 
 	PropertyContainer(XClass clazz, XClass entityAtStake, AccessType defaultClassLevelAccessType) {
 		this.xClass = clazz;
@@ -83,7 +83,7 @@ class PropertyContainer {
 				: defaultClassLevelAccessType;
 		assert classLevelAccessType == AccessType.FIELD || classLevelAccessType == AccessType.PROPERTY;
 
-		this.persistentAttributeMap = new TreeMap<String, XProperty>();
+		this.persistentAttributeMap = new LinkedHashMap<String, XProperty>();
 
 		final List<XProperty> fields = xClass.getDeclaredProperties( AccessType.FIELD.getType() );
 		final List<XProperty> getters = xClass.getDeclaredProperties( AccessType.PROPERTY.getType() );
@@ -125,7 +125,7 @@ class PropertyContainer {
 	}
 
 	private void collectPersistentAttributesUsingLocalAccessType(
-			TreeMap<String, XProperty> persistentAttributeMap,
+			Map<String, XProperty> persistentAttributeMap,
 			Map<String,XProperty> persistentAttributesFromGetters,
 			List<XProperty> fields,
 			List<XProperty> getters) {
@@ -177,7 +177,7 @@ class PropertyContainer {
 	}
 
 	private void collectPersistentAttributesUsingClassLevelAccessType(
-			TreeMap<String, XProperty> persistentAttributeMap,
+			Map<String, XProperty> persistentAttributeMap,
 			Map<String,XProperty> persistentAttributesFromGetters,
 			List<XProperty> fields,
 			List<XProperty> getters) {

@@ -55,7 +55,7 @@ allprojects {
 
 ext {
     expectedGradleVersion = '2.10'
-    hibernateTargetVersion = '5.1.10.Final'
+    hibernateTargetVersion = '5.1.10.Final-patched'
 
     osgiExportVersion = hibernateTargetVersion.replaceAll( '-SNAPSHOT', '.SNAPSHOT' )
 }
@@ -350,7 +350,7 @@ subprojects { subProject ->
 	}
 }
 
-task release(type: Task, dependsOn: 'release:release')
+//task release(type: Task, dependsOn: 'release:release')
 
 task wrapper(type: Wrapper) {
     gradleVersion = expectedGradleVersion

@@ -1526,7 +1526,7 @@ public final class AnnotationBinder {
 		 */
 		final XAnnotatedElement element = propertyAnnotatedElement.getProperty();
 		if ( element.isAnnotationPresent( Id.class ) || element.isAnnotationPresent( EmbeddedId.class ) ) {
-			inFlightPropertyDataList.add( 0, propertyAnnotatedElement );
+			inFlightPropertyDataList.add( propertyAnnotatedElement );
 			/**
 			 * The property must be put in hibernate.properties as it's a system wide property. Fixable?
 			 * TODO support true/false/default on the property instead of present / not present

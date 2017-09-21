@@ -44,6 +44,11 @@ public class MapKeyColumnDelegator implements Column {
 		return column.columnDefinition();
 	}
 
+	@Override
+	public String comment() {
+		return column.name();
+	}
+
 	public String table() {
 		return column.table();
 	}

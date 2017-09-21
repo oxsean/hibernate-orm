@@ -69,6 +69,7 @@ public class Ejb3Column {
 	private String writeExpression;
 
 	private String defaultValue;
+	private String comment;
 
 	public void setTable(Table table) {
 		this.table = table;
@@ -193,6 +194,14 @@ public class Ejb3Column {
 		this.defaultValue = defaultValue;
 	}
 
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
 	public Ejb3Column() {
 	}
 
@@ -206,6 +215,7 @@ public class Ejb3Column {
 			initMappingColumn(
 					logicalColumnName, propertyName, length, precision, scale, nullable, sqlType, unique, true
 			);
+			mappingColumn.setComment(comment);
 			if ( defaultValue != null ) {
 				mappingColumn.setDefaultValue( defaultValue );
 			}
@@ -609,6 +619,9 @@ public class Ejb3Column {
 					column.setJoins( secondaryTables );
 					column.setBuildingContext( context );
 					column.extractDataFromPropertyData(inferredData);
+					if (!StringHelper.isEmpty(col.comment())) {
+						column.setComment(col.comment());
+					}
 					column.bind();
 					columns[index] = column;
 				}
