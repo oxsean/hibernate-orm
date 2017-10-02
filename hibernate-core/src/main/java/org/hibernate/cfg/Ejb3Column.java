@@ -622,6 +622,9 @@ public class Ejb3Column {
 					if (!StringHelper.isEmpty(col.comment())) {
 						column.setComment(col.comment());
 					}
+					if (!StringHelper.isEmpty(col.def())) {
+						column.setDefaultValue(col.def());
+					}
 					column.bind();
 					columns[index] = column;
 				}
