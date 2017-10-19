@@ -332,6 +332,23 @@ subprojects { subProject ->
 			// to duplicate the testing dependencies.  Well, on second thought, we could centralize the
 			// testing dependencies here within the subprojects block
 		}
+
+		repositories {
+			maven {
+				if ( project.version.endsWith( 'SNAPSHOT' ) ) {
+					name 'nexus-snapshots'
+					url 'http://dev.gtis.com.cn/nexus/content/repositories/snapshots/'
+				}
+				else {
+					name 'nexus-releases'
+					url 'http://dev.gtis.com.cn/nexus/content/repositories/releases/'
+				}
+				credentials {
+					username "admin"
+					password "admin123"
+				}
+			}
+		}
 	}
 
 	model {
