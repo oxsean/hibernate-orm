@@ -62,6 +62,7 @@ import static org.hibernate.query.sqm.internal.AppliedGraphs.containsCollectionF
 import static org.hibernate.query.sqm.internal.SqmQueryImpl.CRITERIA_HQL_STRING;
 import static org.hibernate.query.sqm.internal.SqmUtil.generateJdbcParamsXref;
 import static org.hibernate.query.sqm.internal.SqmUtil.isSelectionAssignableToResultType;
+import static org.hibernate.sql.exec.internal.FilterJdbcParameter.bindFilterParameters;
 
 /**
  * Standard implementation of {@link SelectQueryPlan} for SQM-backed
@@ -480,6 +481,7 @@ public class ConcreteSqmSelectQueryPlan<R> implements SelectQueryPlan<R> {
 		if ( jdbcParameterBindings == null ) {
 			jdbcParameterBindings = createJdbcParameterBindings( localCopy, executionContext );
 		}
+		bindFilterParameters( localCopy.jdbcOperation(), jdbcParameterBindings, session );
 
 		return interpreter.interpret( context, executionContext, localCopy, jdbcParameterBindings, preFlushed );
 	}
