@@ -173,6 +173,7 @@ import org.hibernate.sql.ast.tree.update.Assignment;
 import org.hibernate.sql.ast.tree.update.UpdateStatement;
 import org.hibernate.sql.exec.ExecutionException;
 import org.hibernate.sql.exec.internal.AbstractJdbcParameter;
+import org.hibernate.sql.exec.internal.FilterJdbcParameter;
 import org.hibernate.sql.exec.internal.JdbcOperationQueryDelete;
 import org.hibernate.sql.exec.internal.JdbcOperationQueryInsertImpl;
 import org.hibernate.sql.exec.internal.JdbcOperationQuerySelect;
@@ -7788,34 +7789,20 @@ public abstract class AbstractSqlAstTranslator<T extends JdbcOperation> implemen
 
 		appendSql( sqlFragment.substring( startPosition, markerStart ) );
 
-		final Object value = parameter.getValue();
-		final JdbcMapping valueMapping = parameter.getValueMapping();
-
 		if ( parameter.getJdbcParameter() != null ) {
 			visitParameterAsParameter( parameter.getJdbcParameter() );
 		}
-		else if ( value instanceof Iterable<?> iterable
-				&& !valueMapping.getJavaTypeDescriptor().isInstance( value ) ) {
-			processIterableFilterParameterValue( valueMapping, iterable.iterator() );
-		}
 		else {
-			processSingularFilterParameterValue( valueMapping, value );
+			final var jdbcParameters = parameter.getFilterJdbcParameters();
+			for ( int i = 0; i < jdbcParameters.size(); i++ ) {
+				if ( i > 0 ) {
+					appendSql( ',' );
+				}
+				visitParameterAsParameter( jdbcParameters.get( i ) );
+			}
 		}
 
 		return markerStart + marker.length();
-	}
-
-	private void processSingularFilterParameterValue(JdbcMapping valueMapping, Object value) {
-		visitParameterAsParameter( new FilterJdbcParameter( valueMapping, value ) );
-	}
-
-	private void processIterableFilterParameterValue(JdbcMapping valueMapping, Iterator<?> iterator) {
-		while ( iterator.hasNext() ) {
-			processSingularFilterParameterValue( valueMapping, iterator.next() );
-			if ( iterator.hasNext() ) {
-				appendSql( "," );
-			}
-		}
 	}
 
 	@Override
